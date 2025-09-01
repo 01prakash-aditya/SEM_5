@@ -1,0 +1,591 @@
+Name: Aditya Prakash
+Roll No. 2302CS11
+Desktop No. 150
+
+Q1.
+
+cse@cse:~/Desktop/2302CS11$ lscpu | grep 'Socket(s)\|Core(s) per socket\|CPU(s)'
+CPU(s):                               8
+On-line CPU(s) list:                  0-7
+Core(s) per socket:                   4
+Socket(s):                            1
+NUMA node0 CPU(s):                    0-7
+
+cse@cse:~/Desktop/2302CS11$ grep -E 'model name|stepping' /proc/cpuinfo | uniq
+model name	: Intel(R) Core(TM) i7-4790 CPU @ 3.60GHz
+stepping	: 3
+model name	: Intel(R) Core(TM) i7-4790 CPU @ 3.60GHz
+stepping	: 3
+model name	: Intel(R) Core(TM) i7-4790 CPU @ 3.60GHz
+stepping	: 3
+model name	: Intel(R) Core(TM) i7-4790 CPU @ 3.60GHz
+stepping	: 3
+model name	: Intel(R) Core(TM) i7-4790 CPU @ 3.60GHz
+stepping	: 3
+model name	: Intel(R) Core(TM) i7-4790 CPU @ 3.60GHz
+stepping	: 3
+model name	: Intel(R) Core(TM) i7-4790 CPU @ 3.60GHz
+stepping	: 3
+model name	: Intel(R) Core(TM) i7-4790 CPU @ 3.60GHz
+stepping	: 3
+
+cse@cse:~/Desktop/2302CS11$ grep 'cpu MHz' /proc/cpuinfo
+cpu MHz		: 798.220
+cpu MHz		: 798.143
+cpu MHz		: 798.129
+cpu MHz		: 798.203
+cpu MHz		: 800.000
+cpu MHz		: 941.639
+cpu MHz		: 2161.598
+cpu MHz		: 2547.514
+
+cse@cse:~/Desktop/2302CS11$ grep MemTotal /proc/meminfo
+MemTotal:       12151404 kB
+
+cse@cse:~/Desktop/2302CS11$ grep -E 'MemFree|MemAvailable' /proc/meminfo
+MemFree:         3575140 kB
+MemAvailable:    8071688 kB
+
+cse@cse:~/Desktop/2302CS11$ grep SwapTotal /proc/meminfo
+SwapTotal:       2097148 kB
+cse@cse:~/Desktop/2302CS11$ grep SwapFree /proc/meminfo
+SwapFree:        2097148 kB
+cse@cse:~/Desktop/2302CS11$ echo "Swap Used: $(( $(grep SwapTotal /proc/meminfo | awk '{print $2}') - $(grep SwapFree /proc/meminfo | awk '{print $2}') )) kB"
+Swap Used: 0 kB
+
+cse@cse:~/Desktop/2302CS11$ uname -r
+6.8.0-65-generic
+
+cse@cse:~/Desktop/2302CS11$ ps -e --no-headers | wc -l
+379
+
+cse@cse:~/Desktop/2302CS11$ grep ctxt /proc/stat
+ctxt 81155865
+
+cse@cse:~/Desktop/2302CS11$ cat /proc/uptime
+cat /proc/loadavg
+92086.71 728501.31
+0.73 0.84 0.75 1/1446 23806
+
+cse@cse:~/Desktop/2302CS11$ sudo du -sh /proc/* 2>/dev/null | head -n 15
+[sudo] password for cse: 
+0	/proc/1
+0	/proc/102
+0	/proc/10242
+0	/proc/10260
+0	/proc/10380
+0	/proc/10601
+0	/proc/108
+0	/proc/11118
+0	/proc/11146
+0	/proc/11386
+0	/proc/11427
+0	/proc/11445
+0	/proc/11768
+0	/proc/11773
+0	/proc/11882
+
+cse@cse:~/Desktop/2302CS11$ ps -eo pid,user,%mem --sort=-%mem | head -n 6
+    PID USER     %MEM
+  14662 cse       5.4
+   1610 mysql     3.2
+   2757 student   2.6
+  14016 cse       2.5
+   3236 student   2.2
+   
+Q2.
+
+cse@cse:~/Desktop/2302CS11$ cat /proc/diskstats
+   7       0 loop0 14 0 34 2 0 0 0 0 0 2 2 0 0 0 0 0 0
+   7       1 loop1 73 0 2228 36 0 0 0 0 0 22 36 0 0 0 0 0 0
+   7       2 loop2 79 0 2280 42 0 0 0 0 0 31 42 0 0 0 0 0 0
+   7       3 loop3 386 0 3610 48 0 0 0 0 0 33 48 0 0 0 0 0 0
+   7       4 loop4 419 0 3764 58 0 0 0 0 0 41 58 0 0 0 0 0 0
+   7       5 loop5 315 0 1860 32 0 0 0 0 0 32 32 0 0 0 0 0 0
+   7       6 loop6 324 0 1926 28 0 0 0 0 0 26 28 0 0 0 0 0 0
+   7       7 loop7 344 0 1984 23 0 0 0 0 0 24 23 0 0 0 0 0 0
+   8       0 sda 79192 46817 5430972 53409 185989 126669 10782642 139958 0 66687 219137 0 0 0 0 36144 25769
+   8       1 sda1 73 0 2032 21 0 0 0 0 0 14 21 0 0 0 0 0 0
+   8       2 sda2 91 0 6574 52 0 0 0 0 0 32 52 0 0 0 0 0 0
+   8       3 sda3 88 0 6520 36 0 0 0 0 0 26 36 0 0 0 0 0 0
+   8       4 sda4 2 0 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   8       5 sda5 200 1055 16648 173 2 0 2 0 0 103 174 0 0 0 0 0 0
+   8       6 sda6 78613 45762 5394506 53059 185987 126669 10782640 139957 0 82476 193016 0 0 0 0 0 0
+   7       8 loop8 343 0 1976 28 0 0 0 0 0 27 28 0 0 0 0 0 0
+   7       9 loop9 396 0 3616 74 0 0 0 0 0 34 74 0 0 0 0 0 0
+   7      10 loop10 940 0 22810 177 0 0 0 0 0 137 177 0 0 0 0 0 0
+   7      11 loop11 106 0 2370 73 0 0 0 0 0 33 73 0 0 0 0 0 0
+   7      12 loop12 260 0 8076 126 0 0 0 0 0 81 126 0 0 0 0 0 0
+   7      13 loop13 58 0 2200 45 0 0 0 0 0 38 45 0 0 0 0 0 0
+   7      14 loop14 75 0 2358 69 0 0 0 0 0 36 69 0 0 0 0 0 0
+   7      15 loop15 600 0 4696 86 0 0 0 0 0 55 86 0 0 0 0 0 0
+   7      16 loop16 621 0 4836 72 0 0 0 0 0 46 72 0 0 0 0 0 0
+   7      17 loop17 677 0 5116 89 0 0 0 0 0 39 89 0 0 0 0 0 0
+   7      18 loop18 4476 0 151634 690 0 0 0 0 0 545 690 0 0 0 0 0 0
+   7      19 loop19 20 0 102 3 0 0 0 0 0 4 3 0 0 0 0 0 0
+   7      20 loop20 4343 0 31986 193 0 0 0 0 0 149 193 0 0 0 0 0 0
+   7      21 loop21 361 0 3712 85 0 0 0 0 0 58 85 0 0 0 0 0 0
+   7      22 loop22 407 0 3980 99 0 0 0 0 0 70 99 0 0 0 0 0 0
+   7      23 loop23 95 0 912 68 0 0 0 0 0 58 68 0 0 0 0 0 0
+   7      25 loop25 51 0 732 66 0 0 0 0 0 54 66 0 0 0 0 0 0
+   7      24 loop24 101 0 944 66 0 0 0 0 0 56 66 0 0 0 0 0 0
+   7      26 loop26 856 0 63316 1074 0 0 0 0 0 634 1074 0 0 0 0 0 0
+   7      27 loop27 21 0 116 13 0 0 0 0 0 13 13 0 0 0 0 0 0
+   7      28 loop28 35 0 664 11 0 0 0 0 0 13 11 0 0 0 0 0 0
+   7      29 loop29 742 0 4814 87 0 0 0 0 0 71 87 0 0 0 0 0 0
+   7      30 loop30 1784 0 182676 67 0 0 0 0 0 77 67 0 0 0 0 0 0
+   
+cse@cse:~/Desktop/2302CS11$ df -h
+Filesystem      Size  Used Avail Use% Mounted on
+tmpfs           1.2G  3.2M  1.2G   1% /run
+/dev/sda6       180G   57G  114G  34% /
+tmpfs           5.8G   17M  5.8G   1% /dev/shm
+tmpfs           5.0M  4.0K  5.0M   1% /run/lock
+tmpfs           5.8G     0  5.8G   0% /run/qemu
+/dev/sda5       512M  6.2M  506M   2% /boot/efi
+tmpfs           1.2G  116K  1.2G   1% /run/user/1001
+tmpfs           1.2G  124K  1.2G   1% /run/user/1000
+
+Explanation:
+Filesystem = Name of the device or mount.
+Size = Total size of the filesystem.
+Used = Space currently used.
+Avail = Space available for new data.
+Use% = Percentage of space used.
+Mounted on = Where the filesystem is mounted in the directory tree.
+
+Q3.
+
+cse@cse:~/Desktop/2302CS11$ cat /proc/net/dev
+Inter-|   Receive                                                |  Transmit
+ face |bytes    packets errs drop fifo frame compressed multicast|bytes    packets errs drop fifo colls carrier compressed
+    lo: 1039863    9067    0    0    0     0          0         0  1039863    9067    0    0    0     0       0          0
+  eno1: 335716141  359060    0    0    0     0          0     85866 19603594  113869    0    0    0     0       0          0
+virbr0:       0       0    0    0    0     0          0         0        0       0    0    0    0     0       0          0
+
+cse@cse:~/Desktop/2302CS11$ ip addr show
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: eno1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 64:00:6a:62:0d:9e brd ff:ff:ff:ff:ff:ff
+    altname enp0s25
+    inet 10.15.8.245/23 brd 10.15.9.255 scope global dynamic noprefixroute eno1
+       valid_lft 36585sec preferred_lft 36585sec
+    inet6 fe80::59dc:ade7:c900:4e8a/64 scope link noprefixroute 
+       valid_lft forever preferred_lft forever
+3: virbr0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN group default qlen 1000
+    link/ether 52:54:00:0b:de:37 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.122.1/24 brd 192.168.122.255 scope global virbr0
+       valid_lft forever preferred_lft forever
+
+Explanation:
+RX = Received packets/bytes
+TX = Transmitted packets/bytes
+ip addr show = Displays each interface, its IP addresses, and status (UP/DOWN)
+
+Q4.
+
+cse@cse:~/Desktop/2302CS11$ PID=14662
+cse@cse:~/Desktop/2302CS11$ ls /proc/$PID/fd | wc -l
+174
+
+cse@cse:~/Desktop/2302CS11$ ls -l /proc/$PID/fd
+total 0
+lr-x------ 1 cse cse 64 Aug 12 17:20 0 -> /dev/null
+lrwx------ 1 cse cse 64 Aug 12 17:20 1 -> 'socket:[271940]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 10 -> 'socket:[274516]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 104 -> 'socket:[347397]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 105 -> 'socket:[271155]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 106 -> '/home/cse/snap/firefox/common/.mozilla/firefox/Profile Groups/bfffdb67.sqlite-wal'
+lrwx------ 1 cse cse 64 Aug 12 17:20 107 -> '/home/cse/snap/firefox/common/.mozilla/firefox/Profile Groups/bfffdb67.sqlite-shm'
+lrwx------ 1 cse cse 64 Aug 12 17:20 108 -> /home/cse/snap/firefox/common/.mozilla/firefox/hhlyg1yg.default/places.sqlite
+lrwx------ 1 cse cse 64 Aug 12 17:20 109 -> /home/cse/snap/firefox/common/.mozilla/firefox/hhlyg1yg.default/places.sqlite-wal
+lrwx------ 1 cse cse 64 Aug 12 17:20 11 -> 'socket:[274512]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 110 -> /home/cse/snap/firefox/common/.mozilla/firefox/hhlyg1yg.default/favicons.sqlite
+lrwx------ 1 cse cse 64 Aug 12 17:20 111 -> /home/cse/snap/firefox/common/.mozilla/firefox/hhlyg1yg.default/favicons.sqlite-wal
+lr-x------ 1 cse cse 64 Aug 12 17:20 112 -> /home/cse/snap/firefox/common/.mozilla/firefox/hhlyg1yg.default/places.sqlite
+lrwx------ 1 cse cse 64 Aug 12 17:20 113 -> /home/cse/snap/firefox/common/.mozilla/firefox/hhlyg1yg.default/places.sqlite-wal
+lr-x------ 1 cse cse 64 Aug 12 17:20 114 -> /home/cse/snap/firefox/common/.mozilla/firefox/hhlyg1yg.default/favicons.sqlite
+lrwx------ 1 cse cse 64 Aug 12 17:20 115 -> 'socket:[276485]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 116 -> /home/cse/snap/firefox/common/.mozilla/firefox/hhlyg1yg.default/favicons.sqlite-wal
+lrwx------ 1 cse cse 64 Aug 12 17:20 117 -> /home/cse/snap/firefox/common/.mozilla/firefox/hhlyg1yg.default/content-prefs.sqlite
+lr-x------ 1 cse cse 64 Aug 12 16:02 118 -> /home/cse/snap/firefox/common/.mozilla/firefox/hhlyg1yg.default/places.sqlite
+lrwx------ 1 cse cse 64 Aug 12 17:20 12 -> 'socket:[274517]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 120 -> /home/cse/snap/firefox/common/.mozilla/firefox/hhlyg1yg.default/places.sqlite-wal
+lr-x------ 1 cse cse 64 Aug 12 17:20 121 -> /home/cse/snap/firefox/common/.mozilla/firefox/hhlyg1yg.default/favicons.sqlite
+lrwx------ 1 cse cse 64 Aug 12 17:20 122 -> /home/cse/snap/firefox/common/.mozilla/firefox/hhlyg1yg.default/favicons.sqlite-wal
+lr-x------ 1 cse cse 64 Aug 12 17:20 123 -> 'pipe:[308756]'
+l-wx------ 1 cse cse 64 Aug 12 16:02 126 -> 'pipe:[308756]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 13 -> 'socket:[270239]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 130 -> 'socket:[272109]'
+lrwx------ 1 cse cse 64 Aug 12 16:02 131 -> 'anon_inode:[eventfd]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 132 -> 'socket:[308757]'
+lr-x------ 1 cse cse 64 Aug 12 17:20 134 -> /home/cse/snap/firefox/common/.mozilla/firefox/hhlyg1yg.default/places.sqlite
+lrwx------ 1 cse cse 64 Aug 12 17:20 135 -> /home/cse/snap/firefox/common/.mozilla/firefox/hhlyg1yg.default/places.sqlite-wal
+lr-x------ 1 cse cse 64 Aug 12 17:20 136 -> /home/cse/snap/firefox/common/.mozilla/firefox/hhlyg1yg.default/favicons.sqlite
+lrwx------ 1 cse cse 64 Aug 12 17:20 137 -> /home/cse/snap/firefox/common/.mozilla/firefox/hhlyg1yg.default/favicons.sqlite-wal
+lrwx------ 1 cse cse 64 Aug 12 17:20 138 -> 'anon_inode:[eventfd]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 14 -> 'socket:[270240]'
+lr-x------ 1 cse cse 64 Aug 12 17:20 143 -> anon_inode:inotify
+lrwx------ 1 cse cse 64 Aug 12 17:20 146 -> /home/cse/snap/firefox/common/.mozilla/firefox/hhlyg1yg.default/storage/default/https+++accounts.google.com/ls/data.sqlite
+lr-x------ 1 cse cse 64 Aug 12 16:02 147 -> 'pipe:[324342]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 148 -> '/memfd:mozilla-ipc (deleted)'
+lrwx------ 1 cse cse 64 Aug 12 17:20 149 -> 'socket:[314553]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 15 -> 'anon_inode:[eventfd]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 150 -> 'socket:[274849]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 152 -> 'socket:[273396]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 154 -> '/home/cse/snap/firefox/common/.mozilla/firefox/hhlyg1yg.default/storage/default/https+++www.youtube.com^partitionKey=%28https%2Cgoogle.com%29/ls/data.sqlite'
+l-wx------ 1 cse cse 64 Aug 12 17:20 155 -> 'pipe:[324342]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 156 -> 'anon_inode:[eventfd]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 158 -> 'socket:[324343]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 159 -> 'socket:[322991]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 16 -> 'anon_inode:[eventfd]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 160 -> 'socket:[318140]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 162 -> 'anon_inode:[eventfd]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 163 -> /home/cse/snap/firefox/common/.cache/event-sound-cache.tdb.cse.x86_64-pc-linux-gnu
+lrwx------ 1 cse cse 64 Aug 12 17:20 168 -> 'socket:[317365]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 17 -> 'socket:[269197]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 171 -> 'socket:[317436]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 173 -> 'socket:[351754]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 174 -> 'socket:[346663]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 175 -> /home/cse/snap/firefox/common/.mozilla/firefox/hhlyg1yg.default/storage/default/https+++chatgpt.com/ls/data.sqlite
+lrwx------ 1 cse cse 64 Aug 12 17:20 176 -> 'socket:[280599]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 18 -> 'anon_inode:[eventfd]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 180 -> 'socket:[324045]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 182 -> /home/cse/snap/firefox/common/.mozilla/firefox/hhlyg1yg.default/protections.sqlite
+lrwx------ 1 cse cse 64 Aug 12 17:20 183 -> 'socket:[322974]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 186 -> 'socket:[350581]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 187 -> /home/cse/snap/firefox/common/.mozilla/firefox/hhlyg1yg.default/formhistory.sqlite
+lrwx------ 1 cse cse 64 Aug 12 16:02 188 -> 'socket:[314069]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 19 -> '/memfd:wayland-cursor (deleted)'
+lrwx------ 1 cse cse 64 Aug 12 17:20 190 -> 'socket:[318120]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 191 -> 'socket:[351110]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 192 -> 'socket:[310121]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 194 -> 'socket:[346653]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 196 -> 'socket:[323150]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 2 -> 'socket:[271940]'
+lr-x------ 1 cse cse 64 Aug 12 17:09 20 -> '/memfd:mozilla-ipc (deleted)'
+lrwx------ 1 cse cse 64 Aug 12 17:20 203 -> 'socket:[351400]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 205 -> 'socket:[316770]'
+lrwx------ 1 cse cse 64 Aug 12 16:19 206 -> 'socket:[319741]'
+lr-x------ 1 cse cse 64 Aug 12 17:20 208 -> '/memfd:mozilla-ipc (deleted)'
+lrwx------ 1 cse cse 64 Aug 12 17:20 209 -> 'socket:[273925]'
+l-wx------ 1 cse cse 64 Aug 12 17:20 21 -> /home/cse/snap/firefox/common/.mozilla/firefox/hhlyg1yg.default/.parentlock
+lrwx------ 1 cse cse 64 Aug 12 17:20 210 -> 'socket:[351342]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 211 -> 'socket:[351749]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 213 -> 'socket:[322337]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 22 -> /dev/dri/renderD128
+lrwx------ 1 cse cse 64 Aug 12 17:20 220 -> 'socket:[314934]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 222 -> 'socket:[316791]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 224 -> 'socket:[343995]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 227 -> 'socket:[348887]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 23 -> 'anon_inode:[eventpoll]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 233 -> 'socket:[349425]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 234 -> 'socket:[313788]'
+lr-x------ 1 cse cse 64 Aug 12 17:20 24 -> 'pipe:[269205]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 246 -> 'socket:[312287]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 248 -> 'socket:[343993]'
+l-wx------ 1 cse cse 64 Aug 12 17:20 25 -> 'pipe:[269205]'
+lr-x------ 1 cse cse 64 Aug 12 17:20 26 -> 'pipe:[269206]'
+l-wx------ 1 cse cse 64 Aug 12 17:20 27 -> 'pipe:[269206]'
+lr-x------ 1 cse cse 64 Aug 12 17:20 28 -> /snap/firefox/6638/usr/lib/firefox/omni.ja
+lr-x------ 1 cse cse 64 Aug 12 17:20 29 -> /snap/firefox/6638/usr/lib/firefox/browser/omni.ja
+lr-x------ 1 cse cse 64 Aug 12 16:02 3 -> /dev/null
+lr-x------ 1 cse cse 64 Aug 12 17:20 30 -> 'pipe:[269207]'
+l-wx------ 1 cse cse 64 Aug 12 17:20 31 -> 'pipe:[269207]'
+lr-x------ 1 cse cse 64 Aug 12 17:20 32 -> 'pipe:[271132]'
+l-wx------ 1 cse cse 64 Aug 12 17:20 33 -> 'pipe:[271132]'
+lr-x------ 1 cse cse 64 Aug 12 17:20 34 -> 'pipe:[270241]'
+l-wx------ 1 cse cse 64 Aug 12 17:20 35 -> 'pipe:[270241]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 36 -> 'socket:[271979]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 37 -> 'socket:[273676]'
+lr-x------ 1 cse cse 64 Aug 12 17:20 38 -> 'pipe:[271134]'
+l-wx------ 1 cse cse 64 Aug 12 17:20 39 -> 'pipe:[271134]'
+lr-x------ 1 cse cse 64 Aug 12 17:20 4 -> /dev/null
+lrwx------ 1 cse cse 64 Aug 12 16:02 40 -> /dev/dri/renderD128
+lr-x------ 1 cse cse 64 Aug 12 17:20 41 -> '/memfd:mozilla-ipc (deleted)'
+lrwx------ 1 cse cse 64 Aug 12 16:02 42 -> 'anon_inode:[eventfd]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 43 -> /dev/dri/renderD128
+lrwx------ 1 cse cse 64 Aug 12 17:20 44 -> /dev/dri/renderD128
+lrwx------ 1 cse cse 64 Aug 12 16:02 45 -> /home/cse/snap/firefox/common/.mozilla/firefox/hhlyg1yg.default/cookies.sqlite
+lr-x------ 1 cse cse 64 Aug 12 17:20 46 -> '/memfd:mozilla-ipc (deleted)'
+lrwx------ 1 cse cse 64 Aug 12 17:20 47 -> /home/cse/snap/firefox/common/.mozilla/firefox/hhlyg1yg.default/cookies.sqlite-wal
+lrwx------ 1 cse cse 64 Aug 12 17:20 48 -> /home/cse/snap/firefox/common/.mozilla/firefox/hhlyg1yg.default/cert9.db
+lrwx------ 1 cse cse 64 Aug 12 17:20 49 -> /home/cse/snap/firefox/common/.mozilla/firefox/hhlyg1yg.default/key4.db
+lr-x------ 1 cse cse 64 Aug 12 17:20 5 -> /dev/null
+lrwx------ 1 cse cse 64 Aug 12 16:02 50 -> /home/cse/snap/firefox/common/.mozilla/firefox/hhlyg1yg.default/storage.sqlite
+lr-x------ 1 cse cse 64 Aug 12 16:02 51 -> '/memfd:mozilla-ipc (deleted)'
+lr-x------ 1 cse cse 64 Aug 12 17:20 52 -> '/memfd:mozilla-ipc (deleted)'
+lr-x------ 1 cse cse 64 Aug 12 17:20 53 -> '/memfd:mozilla-ipc (deleted)'
+lr-x------ 1 cse cse 64 Aug 12 17:20 54 -> '/memfd:mozilla-ipc (deleted)'
+lr-x------ 1 cse cse 64 Aug 12 17:20 55 -> '/memfd:mozilla-ipc (deleted)'
+lr-x------ 1 cse cse 64 Aug 12 17:20 56 -> '/memfd:mozilla-ipc (deleted)'
+lr-x------ 1 cse cse 64 Aug 12 17:20 57 -> '/memfd:mozilla-ipc (deleted)'
+lr-x------ 1 cse cse 64 Aug 12 17:20 58 -> '/memfd:mozilla-ipc (deleted)'
+lr-x------ 1 cse cse 64 Aug 12 17:20 59 -> '/home/cse/.local/share/gvfs-metadata/root (deleted)'
+lr-x------ 1 cse cse 64 Aug 12 17:20 6 -> 'pipe:[269196]'
+lr-x------ 1 cse cse 64 Aug 12 17:20 60 -> '/memfd:mozilla-ipc (deleted)'
+lr-x------ 1 cse cse 64 Aug 12 17:20 61 -> '/memfd:mozilla-ipc (deleted)'
+lr-x------ 1 cse cse 64 Aug 12 17:20 62 -> '/memfd:mozilla-ipc (deleted)'
+lr-x------ 1 cse cse 64 Aug 12 17:20 63 -> '/memfd:mozilla-ipc (deleted)'
+lr-x------ 1 cse cse 64 Aug 12 17:20 64 -> '/memfd:mozilla-ipc (deleted)'
+lrwx------ 1 cse cse 64 Aug 12 17:20 66 -> /home/cse/snap/firefox/common/.mozilla/firefox/hhlyg1yg.default/storage/default/https+++www.google.com/ls/data.sqlite
+lrwx------ 1 cse cse 64 Aug 12 16:02 67 -> /dev/dri/renderD128
+lr-x------ 1 cse cse 64 Aug 12 17:20 68 -> '/memfd:mozilla-ipc (deleted)'
+lrwx------ 1 cse cse 64 Aug 12 17:20 69 -> 'socket:[271139]'
+l-wx------ 1 cse cse 64 Aug 12 17:20 7 -> 'pipe:[269196]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 70 -> /dev/dri/renderD128
+lr-x------ 1 cse cse 64 Aug 12 17:20 71 -> '/memfd:mozilla-ipc (deleted)'
+lrwx------ 1 cse cse 64 Aug 12 17:20 72 -> 'socket:[273680]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 73 -> 'socket:[273681]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 74 -> /dev/dri/renderD128
+lr-x------ 1 cse cse 64 Aug 12 17:20 76 -> '/home/cse/.local/share/gvfs-metadata/root-bf2af1d8.log (deleted)'
+lr-x------ 1 cse cse 64 Aug 12 17:20 77 -> '/memfd:mozilla-ipc (deleted)'
+lrwx------ 1 cse cse 64 Aug 12 17:20 78 -> 'socket:[269210]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 79 -> 'socket:[273686]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 8 -> 'socket:[274509]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 80 -> /home/cse/snap/firefox/common/.mozilla/firefox/hhlyg1yg.default/permissions.sqlite
+lr-x------ 1 cse cse 64 Aug 12 17:20 81 -> 'pipe:[273688]'
+l-wx------ 1 cse cse 64 Aug 12 17:20 82 -> 'pipe:[273688]'
+lr-x------ 1 cse cse 64 Aug 12 16:02 83 -> /home/cse/snap/firefox/common/.mozilla/firefox/hhlyg1yg.default/extensions/langpack-en-US@firefox.mozilla.org.xpi
+lr-x------ 1 cse cse 64 Aug 12 17:20 84 -> '/memfd:mozilla-ipc (deleted)'
+lrwx------ 1 cse cse 64 Aug 12 17:20 85 -> 'socket:[268280]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 86 -> 'anon_inode:[eventpoll]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 87 -> 'socket:[271148]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 88 -> 'anon_inode:[eventfd]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 89 -> 'anon_inode:[eventpoll]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 9 -> 'socket:[274514]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 90 -> 'anon_inode:[eventfd]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 91 -> 'anon_inode:[eventpoll]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 92 -> 'socket:[273693]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 93 -> 'socket:[269306]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 94 -> 'anon_inode:[eventfd]'
+lrwx------ 1 cse cse 64 Aug 12 16:02 95 -> /home/cse/snap/firefox/common/.mozilla/firefox/hhlyg1yg.default/bounce-tracking-protection.sqlite
+lrwx------ 1 cse cse 64 Aug 12 17:20 96 -> 'socket:[268282]'
+lrwx------ 1 cse cse 64 Aug 12 17:20 97 -> /home/cse/snap/firefox/common/.mozilla/firefox/hhlyg1yg.default/domain_to_categories.sqlite
+lrwx------ 1 cse cse 64 Aug 12 17:20 98 -> 'socket:[271172]'
+lrwx------ 1 cse cse 64 Aug 12 16:02 99 -> '/home/cse/snap/firefox/common/.mozilla/firefox/Profile Groups/bfffdb67.sqlite'
+
+Q5.
+
+cse@cse:~/Desktop/2302CS11$ mount | column -t
+sysfs                                                    on  /sys                                         type  sysfs            (rw,nosuid,nodev,noexec,relatime)
+proc                                                     on  /proc                                        type  proc             (rw,nosuid,nodev,noexec,relatime)
+udev                                                     on  /dev                                         type  devtmpfs         (rw,nosuid,relatime,size=6031456k,nr_inodes=1507864,mode=755,inode64)
+devpts                                                   on  /dev/pts                                     type  devpts           (rw,nosuid,noexec,relatime,gid=5,mode=620,ptmxmode=000)
+tmpfs                                                    on  /run                                         type  tmpfs            (rw,nosuid,nodev,noexec,relatime,size=1215144k,mode=755,inode64)
+/dev/sda6                                                on  /                                            type  ext4             (rw,relatime,errors=remount-ro)
+securityfs                                               on  /sys/kernel/security                         type  securityfs       (rw,nosuid,nodev,noexec,relatime)
+tmpfs                                                    on  /dev/shm                                     type  tmpfs            (rw,nosuid,nodev,inode64)
+tmpfs                                                    on  /run/lock                                    type  tmpfs            (rw,nosuid,nodev,noexec,relatime,size=5120k,inode64)
+cgroup2                                                  on  /sys/fs/cgroup                               type  cgroup2          (rw,nosuid,nodev,noexec,relatime,nsdelegate,memory_recursiveprot)
+pstore                                                   on  /sys/fs/pstore                               type  pstore           (rw,nosuid,nodev,noexec,relatime)
+bpf                                                      on  /sys/fs/bpf                                  type  bpf              (rw,nosuid,nodev,noexec,relatime,mode=700)
+systemd-1                                                on  /proc/sys/fs/binfmt_misc                     type  autofs           (rw,relatime,fd=29,pgrp=1,timeout=0,minproto=5,maxproto=5,direct,pipe_ino=8232)
+mqueue                                                   on  /dev/mqueue                                  type  mqueue           (rw,nosuid,nodev,noexec,relatime)
+hugetlbfs                                                on  /dev/hugepages                               type  hugetlbfs        (rw,relatime,pagesize=2M)
+debugfs                                                  on  /sys/kernel/debug                            type  debugfs          (rw,nosuid,nodev,noexec,relatime)
+tracefs                                                  on  /sys/kernel/tracing                          type  tracefs          (rw,nosuid,nodev,noexec,relatime)
+fusectl                                                  on  /sys/fs/fuse/connections                     type  fusectl          (rw,nosuid,nodev,noexec,relatime)
+configfs                                                 on  /sys/kernel/config                           type  configfs         (rw,nosuid,nodev,noexec,relatime)
+ramfs                                                    on  /run/credentials/systemd-sysusers.service    type  ramfs            (ro,nosuid,nodev,noexec,relatime,mode=700)
+tmpfs                                                    on  /run/qemu                                    type  tmpfs            (rw,nosuid,nodev,relatime,mode=755,inode64)
+/var/lib/snapd/snaps/bare_5.snap                         on  /snap/bare/5                                 type  squashfs         (ro,nodev,relatime,errors=continue,threads=single,x-gdu.hide)
+/var/lib/snapd/snaps/chromium_3217.snap                  on  /snap/chromium/3217                          type  squashfs         (ro,nodev,relatime,errors=continue,threads=single,x-gdu.hide)
+/var/lib/snapd/snaps/core_17200.snap                     on  /snap/core/17200                             type  squashfs         (ro,nodev,relatime,errors=continue,threads=single,x-gdu.hide)
+/var/lib/snapd/snaps/chromium_3203.snap                  on  /snap/chromium/3203                          type  squashfs         (ro,nodev,relatime,errors=continue,threads=single,x-gdu.hide)
+/var/lib/snapd/snaps/core_17212.snap                     on  /snap/core/17212                             type  squashfs         (ro,nodev,relatime,errors=continue,threads=single,x-gdu.hide)
+/var/lib/snapd/snaps/core18_2855.snap                    on  /snap/core18/2855                            type  squashfs         (ro,nodev,relatime,errors=continue,threads=single,x-gdu.hide)
+/var/lib/snapd/snaps/core18_2934.snap                    on  /snap/core18/2934                            type  squashfs         (ro,nodev,relatime,errors=continue,threads=single,x-gdu.hide)
+/var/lib/snapd/snaps/core20_2501.snap                    on  /snap/core20/2501                            type  squashfs         (ro,nodev,relatime,errors=continue,threads=single,x-gdu.hide)
+/var/lib/snapd/snaps/core20_2599.snap                    on  /snap/core20/2599                            type  squashfs         (ro,nodev,relatime,errors=continue,threads=single,x-gdu.hide)
+/var/lib/snapd/snaps/core22_1908.snap                    on  /snap/core22/1908                            type  squashfs         (ro,nodev,relatime,errors=continue,threads=single,x-gdu.hide)
+/var/lib/snapd/snaps/core22_2045.snap                    on  /snap/core22/2045                            type  squashfs         (ro,nodev,relatime,errors=continue,threads=single,x-gdu.hide)
+/var/lib/snapd/snaps/cups_1085.snap                      on  /snap/cups/1085                              type  squashfs         (ro,nodev,relatime,errors=continue,threads=single,x-gdu.hide)
+/var/lib/snapd/snaps/cups_1100.snap                      on  /snap/cups/1100                              type  squashfs         (ro,nodev,relatime,errors=continue,threads=single,x-gdu.hide)
+/var/lib/snapd/snaps/firefox_6565.snap                   on  /snap/firefox/6565                           type  squashfs         (ro,nodev,relatime,errors=continue,threads=single,x-gdu.hide)
+/var/lib/snapd/snaps/gnome-3-38-2004_119.snap            on  /snap/gnome-3-38-2004/119                    type  squashfs         (ro,nodev,relatime,errors=continue,threads=single,x-gdu.hide)
+/var/lib/snapd/snaps/gnome-42-2204_176.snap              on  /snap/gnome-42-2204/176                      type  squashfs         (ro,nodev,relatime,errors=continue,threads=single,x-gdu.hide)
+/var/lib/snapd/snaps/gnome-42-2204_202.snap              on  /snap/gnome-42-2204/202                      type  squashfs         (ro,nodev,relatime,errors=continue,threads=single,x-gdu.hide)
+/var/lib/snapd/snaps/gnome-3-38-2004_143.snap            on  /snap/gnome-3-38-2004/143                    type  squashfs         (ro,nodev,relatime,errors=continue,threads=single,x-gdu.hide)
+/var/lib/snapd/snaps/gtk2-common-themes_13.snap          on  /snap/gtk2-common-themes/13                  type  squashfs         (ro,nodev,relatime,errors=continue,threads=single,x-gdu.hide)
+/var/lib/snapd/snaps/gtk-common-themes_1535.snap         on  /snap/gtk-common-themes/1535                 type  squashfs         (ro,nodev,relatime,errors=continue,threads=single,x-gdu.hide)
+/var/lib/snapd/snaps/pycharm-community_465.snap          on  /snap/pycharm-community/465                  type  squashfs         (ro,nodev,relatime,errors=continue,threads=single,x-gdu.hide)
+/var/lib/snapd/snaps/pycharm-community_471.snap          on  /snap/pycharm-community/471                  type  squashfs         (ro,nodev,relatime,errors=continue,threads=single,x-gdu.hide)
+/var/lib/snapd/snaps/snap-store_1113.snap                on  /snap/snap-store/1113                        type  squashfs         (ro,nodev,relatime,errors=continue,threads=single,x-gdu.hide)
+/var/lib/snapd/snaps/snapd_23771.snap                    on  /snap/snapd/23771                            type  squashfs         (ro,nodev,relatime,errors=continue,threads=single,x-gdu.hide)
+/var/lib/snapd/snaps/snap-store_1216.snap                on  /snap/snap-store/1216                        type  squashfs         (ro,nodev,relatime,errors=continue,threads=single,x-gdu.hide)
+/var/lib/snapd/snaps/snapd_24792.snap                    on  /snap/snapd/24792                            type  squashfs         (ro,nodev,relatime,errors=continue,threads=single,x-gdu.hide)
+/var/lib/snapd/snaps/snapd-desktop-integration_253.snap  on  /snap/snapd-desktop-integration/253          type  squashfs         (ro,nodev,relatime,errors=continue,threads=single,x-gdu.hide)
+/var/lib/snapd/snaps/snapd-desktop-integration_315.snap  on  /snap/snapd-desktop-integration/315          type  squashfs         (ro,nodev,relatime,errors=continue,threads=single,x-gdu.hide)
+/var/lib/snapd/snaps/wps-2019-snap_2.snap                on  /snap/wps-2019-snap/2                        type  squashfs         (ro,nodev,relatime,errors=continue,threads=single,x-gdu.hide)
+/dev/sda6                                                on  /var/snap/firefox/common/host-hunspell       type  ext4             (ro,noexec,noatime,errors=remount-ro)
+/dev/sda5                                                on  /boot/efi                                    type  vfat             (rw,relatime,fmask=0077,dmask=0077,codepage=437,iocharset=iso8859-1,shortname=mixed,errors=remount-ro)
+binfmt_misc                                              on  /proc/sys/fs/binfmt_misc                     type  binfmt_misc      (rw,nosuid,nodev,noexec,relatime)
+tmpfs                                                    on  /run/snapd/ns                                type  tmpfs            (rw,nosuid,nodev,noexec,relatime,size=1215144k,mode=755,inode64)
+nsfs                                                     on  /run/snapd/ns/cups.mnt                       type  nsfs             (rw)
+nsfs                                                     on  /run/snapd/ns/snapd-desktop-integration.mnt  type  nsfs             (rw)
+tmpfs                                                    on  /run/user/1001                               type  tmpfs            (rw,nosuid,nodev,relatime,size=1215140k,nr_inodes=303785,mode=700,uid=1001,gid=1001,inode64)
+gvfsd-fuse                                               on  /run/user/1001/gvfs                          type  fuse.gvfsd-fuse  (rw,nosuid,nodev,relatime,user_id=1001,group_id=1001)
+portal                                                   on  /run/user/1001/doc                           type  fuse.portal      (rw,nosuid,nodev,relatime,user_id=1001,group_id=1001)
+/var/lib/snapd/snaps/firefox_6638.snap                   on  /snap/firefox/6638                           type  squashfs         (ro,nodev,relatime,errors=continue,threads=single,x-gdu.hide)
+nsfs                                                     on  /run/snapd/ns/firefox.mnt                    type  nsfs             (rw)
+tmpfs                                                    on  /run/user/1000                               type  tmpfs            (rw,nosuid,nodev,relatime,size=1215140k,nr_inodes=303785,mode=700,uid=1000,gid=1000,inode64)
+gvfsd-fuse                                               on  /run/user/1000/gvfs                          type  fuse.gvfsd-fuse  (rw,nosuid,nodev,relatime,user_id=1000,group_id=1000)
+portal                                                   on  /run/user/1000/doc                           type  fuse.portal      (rw,nosuid,nodev,relatime,user_id=1000,group_id=1000)
+
+cse@cse:~/Desktop/2302CS11$ lsblk
+NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
+loop0    7:0    0     4K  1 loop /snap/bare/5
+loop1    7:1    0 184.1M  1 loop /snap/chromium/3203
+loop2    7:2    0 183.6M  1 loop /snap/chromium/3217
+loop3    7:3    0 104.2M  1 loop /snap/core/17200
+loop4    7:4    0 104.2M  1 loop /snap/core/17212
+loop5    7:5    0  55.4M  1 loop /snap/core18/2855
+loop6    7:6    0  55.5M  1 loop /snap/core18/2934
+loop7    7:7    0  63.8M  1 loop /snap/core20/2599
+loop8    7:8    0  63.8M  1 loop /snap/core20/2501
+loop9    7:9    0  73.9M  1 loop /snap/core22/1908
+loop10   7:10   0  73.9M  1 loop /snap/core22/2045
+loop11   7:11   0  68.4M  1 loop /snap/cups/1085
+loop12   7:12   0  67.2M  1 loop /snap/cups/1100
+loop14   7:14   0 245.1M  1 loop /snap/firefox/6565
+loop15   7:15   0 346.3M  1 loop /snap/gnome-3-38-2004/119
+loop16   7:16   0 349.7M  1 loop /snap/gnome-3-38-2004/143
+loop17   7:17   0 505.1M  1 loop /snap/gnome-42-2204/176
+loop18   7:18   0   516M  1 loop /snap/gnome-42-2204/202
+loop19   7:19   0   140K  1 loop /snap/gtk2-common-themes/13
+loop20   7:20   0  91.7M  1 loop /snap/gtk-common-themes/1535
+loop21   7:21   0 822.3M  1 loop /snap/pycharm-community/465
+loop22   7:22   0 896.6M  1 loop /snap/pycharm-community/471
+loop23   7:23   0  12.9M  1 loop /snap/snap-store/1113
+loop24   7:24   0  12.2M  1 loop /snap/snap-store/1216
+loop25   7:25   0  44.4M  1 loop /snap/snapd/23771
+loop26   7:26   0  49.3M  1 loop /snap/snapd/24792
+loop27   7:27   0   568K  1 loop /snap/snapd-desktop-integration/253
+loop28   7:28   0   576K  1 loop /snap/snapd-desktop-integration/315
+loop29   7:29   0 381.8M  1 loop /snap/wps-2019-snap/2
+loop30   7:30   0 245.6M  1 loop /snap/firefox/6638
+sda      8:0    0 465.8G  0 disk 
+├─sda1   8:1    0    50M  0 part 
+├─sda2   8:2    0 281.6G  0 part 
+├─sda3   8:3    0   530M  0 part 
+├─sda4   8:4    0     1K  0 part 
+├─sda5   8:5    0   513M  0 part /boot/efi
+└─sda6   8:6    0 183.1G  0 part /var/snap/firefox/common/host-hunspell
+                                 /
+Q6.
+
+PROCESS_NAME=firefox
+PID=14662
+echo "Target Process: $PROCESS_NAME (PID: $PID)"
+echo "Child Processes:"
+pgrep -P $PID
+Target Process: firefox (PID: 14662)
+Child Processes:
+14802
+14886
+14922
+
+cse@cse:~/Desktop/2302CS11$ echo "Stopping process $PID..."
+kill -STOP $PID
+sleep 2
+echo "Resuming process $PID..."
+kill -CONT $PID
+echo "Process stopped and resumed."
+Stopping process 14662...
+Resuming process 14662...
+Process stopped and resumed.
+
+Q7.
+
+cse@cse:~/Desktop/2302CS11$ strace -o ls_trace.txt ls
+head -n 10 ls_trace.txt
+ bootloader.asm   boot_sector1.asm   boot_sector2.asm   disk.img       message.asm   qemu	  stage2.bin
+ bootloader.bin   boot_sector1.bin   boot_sector2.bin   ls_trace.txt   message.bin   stage2.asm  'Untitled Document 1'
+execve("/usr/bin/ls", ["ls"], 0x7ffd00de0870 /* 47 vars */) = 0
+brk(NULL)                               = 0x56ffcf06f000
+arch_prctl(0x3001 /* ARCH_??? */, 0x7fff00d3e870) = -1 EINVAL (Invalid argument)
+mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x74ddbbb1a000
+access("/etc/ld.so.preload", R_OK)      = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=99764, ...}, AT_EMPTY_PATH) = 0
+mmap(NULL, 99764, PROT_READ, MAP_PRIVATE, 3, 0) = 0x74ddbbb01000
+close(3)                                = 0
+openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libselinux.so.1", O_RDONLY|O_CLOEXEC) = 3
+
+cse@cse:~/Desktop/2302CS11$ strace -o cat_trace.txt cat /dev/null
+strace -o grep_trace.txt grep '' /dev/null
+cat_calls=$(awk '{print $1}' cat_trace.txt | sort -u)
+grep_calls=$(awk '{print $1}' grep_trace.txt | sort -u)
+echo -e "\nUnique system calls in 'cat':"
+comm -23 <(echo "$cat_calls") <(echo "$grep_calls")
+echo -e "\nUnique system calls in 'grep':"
+comm -13 <(echo "$cat_calls") <(echo "$grep_calls")
+
+Unique system calls in 'cat':
+brk(0x5bb78672b000)
+execve("/usr/bin/cat",
+exit_group(0)
+fadvise64(3,
+getrandom("\xb4\x67\x24\x7f\x76\x07\x52\x20",
+mmap(0x7fe1b4428000,
+mmap(0x7fe1b45bd000,
+mmap(0x7fe1b4616000,cse@cse:~/Desktop/2302CS11$ strace -o ls_trace.txt ls
+head -n 10 ls_trace.txt
+ bootloader.asm   boot_sector1.asm   boot_sector2.asm   disk.img       message.asm   qemu	  stage2.bin
+ bootloader.bin   boot_sector1.bin   boot_sector2.bin   ls_trace.txt   message.bin   stage2.asm  'Untitled Document 1'
+execve("/usr/bin/ls", ["ls"], 0x7ffd00de0870 /* 47 vars */) = 0
+brk(NULL)                               = 0x56ffcf06f000
+arch_prctl(0x3001 /* ARCH_??? */, 0x7fff00d3e870) = -1 EINVAL (Invalid argument)
+mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x74ddbbb1a000
+access("/etc/ld.so.preload", R_OK)      = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=99764, ...}, AT_EMPTY_PATH) = 0
+mmap(NULL, 99764, PROT_READ, MAP_PRIVATE, 3, 0) = 0x74ddbbb01000
+close(3)                                = 0
+openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libselinux.so.1", O_RDONLY|O_CLOEXEC) = 3
+
+mmap(0x7fe1b461c000,
+mprotect(0x5bb751f37000,
+mprotect(0x7fe1b4428000,
+mprotect(0x7fe1b4616000,
+mprotect(0x7fe1b4766000,
+munmap(0x7fe1b46ee000,
+munmap(0x7fe1b4713000,
+rseq(0x7fe1b47110e0,
+set_robust_list(0x7fe1b4710a20,
+set_tid_address(0x7fe1b4710a10)
+
+Unique system calls in 'grep':
+brk(0x5a2915b60000)
+execve("/usr/bin/grep",
+exit_group(1)
+futex(0x788f5fc1ba6c,
+getrandom("\x18\xfd\xc2\xf8\xd7\x66\xd7\xbc",
+lseek(3,
+mmap(0x788f5fa28000,
+mmap(0x788f5fbbd000,
+mmap(0x788f5fc16000,
+mmap(0x788f5fc1c000,
+mmap(0x788f5fd97000,
+mmap(0x788f5fdec000,
+mmap(0x788f5fe09000,
+mprotect(0x5a290002d000,
+mprotect(0x788f5fa28000,
+mprotect(0x788f5fc16000,
+mprotect(0x788f5fe09000,
+mprotect(0x788f5fe5e000,
+munmap(0x788f5fe0b000,
+munmap(0x788f5fe1b000,
+newfstatat(AT_FDCWD,
+rseq(0x788f5fd930e0,
+rt_sigaction(SIGSEGV,
+set_robust_list(0x788f5fd92a20,
+set_tid_address(0x788f5fd92a10)
+sigaltstack({ss_sp=0x5a290002e7c0,
+
